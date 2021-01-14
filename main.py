@@ -18,6 +18,7 @@ def podstawowe_statystyki():
     age_max = df_train.Age.max()
     age_sr = df_train.Age.sum() / df_train.Age.count()
     print("Sredni wiek =", age_sr)
+    print("Max wiek = ", age_max)
 
 
 def wykresy():
