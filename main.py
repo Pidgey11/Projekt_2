@@ -12,6 +12,14 @@ def podstawowe_sprawdzenia():
     print("Ilosc pustych miejsc", df_train.isnull().sum().sum())  # sprawdzenie ilości pustych miejsc
 
 
+def podstawowe_statystyki():
+    df_train = pd.read_csv('train.csv')
+    age_min = df_train.Age.min()
+    age_max = df_train.Age.max()
+    age_sr = df_train.Age.sum() / df_train.Age.count()
+    print("Sredni wiek =", age_sr)
+
+
 def wykresy():
     df_train = pd.read_csv('train.csv')
     df_test = pd.read_csv('test.csv')
@@ -28,6 +36,6 @@ def wykresy():
 
 if __name__ == '__main__':
     podstawowe_sprawdzenia()
+    podstawowe_statystyki()
     wykresy()
-    ####
 
