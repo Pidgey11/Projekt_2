@@ -3,7 +3,9 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 def podstawowe_sprawdzenia():
     df_train = pd.read_csv('train.csv')
@@ -33,10 +35,24 @@ def wykresy():
     for i in df_num.columns:
         sns.distplot(df_num[i])
         plt.show()
+def drzewo_decyzyjne():
+    df_train = pd.read_csv('train.csv')
+    df_train = pd.get_dummies(df_train, columns=['Gender'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Damage'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Age'], drop_first=True)
+    scaler = StandardScaler()
+    inputs = scaler.fit_transform(df_train.drop('Response', axis=1))
+    x = inputs
+    y = df_train['Response']
+    x_train, x_test, y_train, y_test = train_test_split (x, y, test_size=0.3, random_state=101)
+    dtc = DecisionTreeClassifier()
+    dtc.fit(x_train, y_train)
+    print("Wynik dla drzewa decyzyjnego:",dtc.score(x_test,y_test))
 
 
 if __name__ == '__main__':
     podstawowe_sprawdzenia()
+    drzewo_decyzyjne()
     podstawowe_statystyki()
     wykresy()
 
