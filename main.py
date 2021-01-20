@@ -50,6 +50,48 @@ def drzewo_decyzyjne():
     print("Wynik dla drzewa decyzyjnego:",dtc.score(x_test,y_test))
 
 
+def naive_bayes():
+    df_train = pd.read_csv('train.csv')
+    NB = GaussianNB()
+    df_train = pd.get_dummies(df_train, columns=['Gender'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Damage'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Age'], drop_first=True)
+    scaler = StandardScaler()
+    inputs = scaler.fit_transform(df_train.drop('Response', axis=1))
+    x = inputs
+    y = df_train['Response']
+    x_train, x_test, y_train, y_test = train_test_split (x, y, test_size=0.3, random_state=101)
+    NB.fit(x_train,y_train)
+    print(NB.score(x_test,y_test))
+
+def sasiedzi():
+    df_train = pd.read_csv('train.csv')
+    df_train = pd.get_dummies(df_train, columns=['Gender'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Damage'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Age'], drop_first=True)
+    scaler = StandardScaler()
+    inputs = scaler.fit_transform(df_train.drop('Response', axis=1))
+    x = inputs
+    y = df_train['Response']
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=101)
+    KNN = KNeighborsClassifier()
+    KNN.fit(x_train, y_train)
+    print(KNN.score(x_test,y_test))
+
+def neural():
+    df_train = pd.read_csv('train.csv')
+    df_train = pd.get_dummies(df_train, columns=['Gender'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Damage'], drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=['Vehicle_Age'], drop_first=True)
+    scaler = StandardScaler()
+    inputs = scaler.fit_transform(df_train.drop('Response', axis=1))
+    x = inputs
+    y = df_train['Response']
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=101)
+    clf = MLPClassifier()
+    clf.fit(x_train,y_train)
+    print(clf.score(x_test,y_test))
+
 if __name__ == '__main__':
     podstawowe_sprawdzenia()
     drzewo_decyzyjne()
