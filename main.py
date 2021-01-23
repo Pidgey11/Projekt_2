@@ -6,6 +6,11 @@ import seaborn as sns
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+
 
 def podstawowe_sprawdzenia():
     df_train = pd.read_csv('train.csv')
@@ -35,6 +40,8 @@ def wykresy():
     for i in df_num.columns:
         sns.distplot(df_num[i])
         plt.show()
+
+
 def drzewo_decyzyjne():
     df_train = pd.read_csv('train.csv')
     df_train = pd.get_dummies(df_train, columns=['Gender'], drop_first=True)
@@ -48,7 +55,8 @@ def drzewo_decyzyjne():
     dtc = DecisionTreeClassifier()
     dtc.fit(x_train, y_train)
     print("Wynik dla drzewa decyzyjnego:",dtc.score(x_test,y_test))
-
+    y_predicted = dtc.predict(x_test)
+    print("Macierz dla drzewa:\n" ,confusion_matrix(y_test, y_predicted))
 
 def naive_bayes():
     df_train = pd.read_csv('train.csv')
@@ -63,6 +71,8 @@ def naive_bayes():
     x_train, x_test, y_train, y_test = train_test_split (x, y, test_size=0.3, random_state=101)
     NB.fit(x_train,y_train)
     print(NB.score(x_test,y_test))
+    y_predicted = NB.predict(x_test)
+    print("Macierz dla Naive bayes:\n", confusion_matrix(y_test, y_predicted))
 
 def sasiedzi():
     df_train = pd.read_csv('train.csv')
@@ -77,6 +87,8 @@ def sasiedzi():
     KNN = KNeighborsClassifier()
     KNN.fit(x_train, y_train)
     print(KNN.score(x_test,y_test))
+    y_predicted = KNN.predict(x_test)
+    print("Macierz dla k-najblizszych sasiadow:\n", confusion_matrix(y_test, y_predicted))
 
 def neural():
     df_train = pd.read_csv('train.csv')
@@ -91,10 +103,15 @@ def neural():
     clf = MLPClassifier()
     clf.fit(x_train,y_train)
     print(clf.score(x_test,y_test))
+    y_predicted = clf.predict(x_test)
+    print("Macierz dla sieci neuronowej:\n", confusion_matrix(y_test, y_predicted))
 
 if __name__ == '__main__':
     podstawowe_sprawdzenia()
     drzewo_decyzyjne()
+    naive_bayes()
+    neural()
+    sasiedzi()
     podstawowe_statystyki()
     wykresy()
 
